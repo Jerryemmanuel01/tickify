@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import mongoose from "mongoose";
+import authRouter from "./routes/authRoutes.js";
 
 const app = express();
 app.use(cors());
@@ -18,9 +19,10 @@ mongoose
     console.log(err);
   });
 
-  app.get("/", (req, res) => {
-    res.send("getting the server okay");
-  });
+app.get("/", (req, res) => {
+  res.send("getting the server okay");
+});
+app.use("/api/auth", authRouter)
 
 app.listen(process.env.PORT, () => {
   console.log("listening...");
