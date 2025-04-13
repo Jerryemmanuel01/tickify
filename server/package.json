@@ -2,11 +2,11 @@
   "name": "tickify-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "api/index.js",
   "type": "module",
   "scripts": {
-    "start": "node --env-file=.env index.js",
-    "dev": "node --watch --trace-warnings --env-file=.env index.js"
+    "start": "node --env-file=.env api/index.js",
+    "dev": "node --watch --trace-warnings --env-file=.env api/index.js"
   },
   "author": "",
   "license": "ISC",
