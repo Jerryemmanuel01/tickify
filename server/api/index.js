@@ -21,7 +21,7 @@ mongoose
     console.log(err);
   });
 
-app.get("/", (req, res) => {
+app.get("/api/hello", (req, res) => {
   res.send("getting the server okay");
 });
 app.use("/api/auth", authRouter)
@@ -31,4 +31,4 @@ app.listen(process.env.PORT, () => {
   console.log("listening...");
 });
 
-export const handler = serverless(app);
+export default serverless(app);
