@@ -2,8 +2,8 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import mongoose from "mongoose";
-import authRouter from "./routes/authRoutes.js";
-import taskRouter from "./routes/taskRoutes.js";
+import authRouter from "../routes/authRoutes.js";
+import taskRouter from "../routes/taskRoutes.js";
 import serverless from 'serverless-http';
 
 const app = express();
