@@ -4,6 +4,7 @@ import helmet from "helmet";
 import mongoose from "mongoose";
 import authRouter from "./routes/authRoutes.js";
 import taskRouter from "./routes/taskRoutes.js";
+import serverless from 'serverless-http';
 
 const app = express();
 app.use(cors());
@@ -29,3 +30,5 @@ app.use("/api/task", taskRouter)
 app.listen(process.env.PORT, () => {
   console.log("listening...");
 });
+
+export const handler = serverless(app);
