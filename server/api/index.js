@@ -27,8 +27,5 @@ app.get("/api/hello", (req, res) => {
 app.use("/api/auth", authRouter)
 app.use("/api/task", taskRouter)
 
-app.listen(process.env.PORT, () => {
-  console.log("listening...");
-});
 
 export default serverless(app);
