@@ -30,12 +30,9 @@ export const addTask = async (req, res) => {
     });
     await newTask.save();
 
-    const allTasks = await Task.find({ user: userId });
-
     res.status(200).json({
       success: true,
       message: "Task added successful",
-      data: allTasks,
     });
   } catch (error) {
     console.log(error);
@@ -49,8 +46,6 @@ export const addTask = async (req, res) => {
 export const editTask = async (req, res) => {
   try {
     const { _id, title } = req.body;
-    const userId = req.user.userId;
-
     const task = await Task.findOne({ _id });
 
     if (!task) {
@@ -61,12 +56,9 @@ export const editTask = async (req, res) => {
     task.title = title;
     await task.save();
 
-    const allTasks = await Task.find({ user: userId });
-
     res.status(200).json({
       success: true,
       message: "Task Edited",
-      data: allTasks,
     });
   } catch (error) {
     console.log(error);
@@ -77,7 +69,6 @@ export const editTask = async (req, res) => {
 export const completeTask = async (req, res) => {
   try {
     const { _id } = req.body;
-    const userId = req.user.userId;
 
     const task = await Task.findOne({ _id });
 
@@ -90,12 +81,9 @@ export const completeTask = async (req, res) => {
     task.completed = true;
     await task.save();
 
-    const allTasks = await Task.find({ user: userId });
-
     res.status(200).json({
       success: true,
       message: "Task Completed",
-      data: allTasks,
     });
   } catch (error) {
     console.log(error);
@@ -106,7 +94,6 @@ export const completeTask = async (req, res) => {
 export const deleteTask = async (req, res) => {
   try {
     const { _id } = req.body;
-    const userId = req.user.userId;
 
     const task = await Task.findOne({ _id });
 
@@ -118,12 +105,9 @@ export const deleteTask = async (req, res) => {
 
     await task.deleteOne();
 
-    const allTasks = await Task.find({ user: userId });
-
     res.status(200).json({
       success: true,
       message: "Task Deleted",
-      data: allTasks,
     });
   } catch (error) {
     console.log(error);
