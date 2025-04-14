@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar"
 
 const index = () => {
   return (
-    <section className="w-full min-h-screen bg-gradient-to-br from-primary to-black pb-[env(safe-area-inset-bottom)]">
+    <section className="w-full min-h-screen bg-gradient-to-br from-primary to-black pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)] ">
       <ScrollRestoration />
       <Navbar />
       <Outlet />
