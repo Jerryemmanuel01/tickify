@@ -3,7 +3,7 @@ import { doHash, doHashValidation } from "../utils/hashing.js";
 import jwt from "jsonwebtoken";
 
 export const signUp = async (req, res) => {
-  const { username, email, password } = req.body;
+  let { username, email, password } = req.body;
   username = username?.toLowerCase();
   email = email?.toLowerCase();
   try {
@@ -36,7 +36,7 @@ export const signUp = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { username, password } = req.body;
+  let { username, password } = req.body;
   username = username?.toLowerCase();
 
   try {
