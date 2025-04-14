@@ -4,9 +4,7 @@ import Navbar from "../components/Navbar"
 const index = () => {
   return (
     <section
-      style={{
-        paddingBottom: "env(safe-area-inset-bottom)",
-      }}
+      
       className="w-full min-h-[100vh] bg-gradient-to-br from-primary to-black pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)] "
     >
       <ScrollRestoration />
