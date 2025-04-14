@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 
 export const signUp = async (req, res) => {
   const { username, email, password } = req.body;
+  username = username?.toLowerCase();
+  email = email?.toLowerCase();
   try {
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
@@ -22,7 +24,6 @@ export const signUp = async (req, res) => {
     await newUser.save();
     res.status(201).json({ success: true, message: "Signup Successful" });
   } catch (error) {
-
     if (error.code === 11000) {
       return res.status(400).json({
         success: false,
@@ -36,6 +37,8 @@ export const signUp = async (req, res) => {
 
 export const login = async (req, res) => {
   const { username, password } = req.body;
+  username = username?.toLowerCase();
+
   try {
     const existingUser = await User.findOne({ username }).select("+password");
     if (!existingUser) {
