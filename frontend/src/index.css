@@ -9,6 +9,12 @@
 }
 
 html, body {
-  padding-bottom: env(safe-area-inset-bottom);
+  background: linear-gradient(to bottom right, #002f5b, black);
+  height: 100%;
   margin: 0;
+}
+
+body{
+  padding-bottom: env(safe-area-inset-bottom);
+  min-height: 100vh;
 }
