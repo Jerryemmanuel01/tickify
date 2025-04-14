@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 
 const sign_up = async (userData) => {
   const response = await axiosClient.post(`/auth/signup`, userData);
-  console.log(userData);
 
   return response.data;
 };

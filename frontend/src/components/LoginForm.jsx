@@ -4,7 +4,8 @@ import { Eye, EyeOff, LockKeyhole, Mail, User, User2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const LoginForm = () => {
-  const { formik, setTogglePassword, togglePassword } = useLoginForm();
+  const { formik, setTogglePassword, togglePassword, isLoading } =
+    useLoginForm();
   return (
     <form className="mt-6 md:mt-7" onSubmit={formik.handleSubmit}>
       <div className="">
@@ -84,17 +85,16 @@ const LoginForm = () => {
       <div className="flex items-center justify-center">
         <button
           type="submit"
-          disabled={!formik.dirty || !formik.isValid}
+          disabled={!formik.dirty || !formik.isValid || isLoading}
           className={`${
-            !formik.dirty || !formik.isValid
+            !formik.dirty || !formik.isValid || isLoading
               ? "bg-[#D0D5DD]"
               : "bg-primary hover:bg-primary/95 active:bg-primary duration-300"
           } w-full text-white rounded-lg h-12 px-6 mt-8 text-sm font-semibold outline-none`}
         >
-          {""? "Please wait..." : "Login"}
+          {isLoading ? "Please wait..." : "Login"}
         </button>
       </div>
-      
     </form>
   );
 };

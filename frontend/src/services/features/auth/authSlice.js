@@ -31,7 +31,6 @@ export const login = createAsyncThunkWithHandler(
   }
 );
 
-
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -68,21 +67,6 @@ const authSlice = createSlice({
         state.isSuccess = false;
       })
 
-      //logout case
-      .addCase(logout.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(logout.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isLogoutSuccess = true;
-        state.message = action.payload?.message || "Logout Successful";
-      })
-      .addCase(logout.rejected, (state, action) => {
-        state.isLoading = false;
-        state.message = action.payload;
-        state.isLogoutSuccess = false;
-      })
-
       //login case
       .addCase(login.pending, (state) => {
         state.isLoading = true;
@@ -97,11 +81,26 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload.message;
+        state.message = action.payload;
         state.isSuccess = false;
       })
 
-      //forgetPassword case
+      //logout case
+      .addCase(logout.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isLogoutSuccess = true;
+        state.message = action.payload?.message || "Logout Successful";
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.isLoading = false;
+        state.message = action.payload;
+        state.isLogoutSuccess = false;
+      });
+
+    //forgetPassword case
     //   .addCase(forgetPassword.pending, (state) => {
     //     state.isLoading = true;
     //   })
@@ -139,4 +138,3 @@ const authSlice = createSlice({
 
 export const { reset, resetToken } = authSlice.actions;
 export default authSlice.reducer;
-

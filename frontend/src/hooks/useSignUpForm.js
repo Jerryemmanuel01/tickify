@@ -1,7 +1,7 @@
 import { signUpSchema } from "../lib/schema.js";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { reset, signUp } from "../services/features/auth/authSlice.js";

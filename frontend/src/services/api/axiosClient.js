@@ -20,29 +20,29 @@ axiosClient.interceptors.request.use((config) => {
 });
 
 // Basic error handling interceptor
-axiosClient.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-    if (error?.response?.status === 401 && !originalRequest?._retry) {
-      originalRequest._retry = true;
-      const refreshToken = Cookies.get("");
-      try {
-        const response = await axios.post("", {
-          token: refreshToken,
-        });
-        const newAccessToken = response.data.data.accessToken;
-        Cookies.set("", newAccessToken);
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${newAccessToken}`;
-        return axiosClient(originalRequest);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    return Promise.reject(error);
-  }
-);
+// axiosClient.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//     const originalRequest = error.config;
+//     if (error?.response?.status === 401 && !originalRequest?._retry) {
+//       originalRequest._retry = true;
+//       const refreshToken = Cookies.get("");
+//       try {
+//         const response = await axios.post("", {
+//           token: refreshToken,
+//         });
+//         const newAccessToken = response.data.data.accessToken;
+//         Cookies.set("", newAccessToken);
+//         axios.defaults.headers.common[
+//           "Authorization"
+//         ] = `Bearer ${newAccessToken}`;
+//         return axiosClient(originalRequest);
+//       } catch (err) {
+//         console.log(err);
+//       }
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 export default axiosClient;
