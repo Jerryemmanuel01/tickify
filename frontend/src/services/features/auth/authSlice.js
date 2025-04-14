@@ -91,13 +91,9 @@ const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isLogoutSuccess = true;
-        state.message = action.payload?.message || "Logout Successful";
       })
       .addCase(logout.rejected, (state, action) => {
         state.isLoading = false;
-        state.message = action.payload;
-        state.isLogoutSuccess = false;
       });
 
     //forgetPassword case

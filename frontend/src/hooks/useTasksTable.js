@@ -84,9 +84,11 @@ const useTasksTable = () => {
   ]);
 
   useEffect(() => {
-    const sortedTasks = [...tasks]?.sort((a, b) => {
-      return a.completed - b.completed;
-    });
+    const sortedTasks = tasks
+      ? [...tasks]?.sort((a, b) => {
+          return a.completed - b.completed;
+        })
+      : [];
     setAllTasks(sortedTasks);
   }, [tasks]);
 
@@ -110,6 +112,7 @@ const useTasksTable = () => {
     },
     validationSchema: taskSchema,
     onSubmit: ({ title } = values) => {
+      if (title === clickedTask?.title) return toast.error("Task not changed");
       const editData = {
         title,
         _id: taskId,

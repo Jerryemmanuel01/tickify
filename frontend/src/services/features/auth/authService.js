@@ -24,6 +24,7 @@ const logout = async () => {
   const accessToken = Cookies.get("Tfy_access_token");
   if (accessToken) {
     Cookies.remove("Tfy_access_token");
+    localStorage.removeItem("Tfy_tasks")
   }
 
   return { message: "Logout successful" };

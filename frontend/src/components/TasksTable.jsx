@@ -24,7 +24,7 @@ const TasksTable = () => {
   return (
     <section className="w-full">
       <div className="mt-6 w-full overflow-x-auto">
-        <table className="w-full bg-[#f8f8f8] rounded-md text-sm">
+        <table className="w-full bg-[#f8f8f8] rounded-md md:text-sm text-xs">
           <thead>
             <tr className="bg-secondary/30 font-lato text-dark">
               <th className="px-4 py-2 border-r border-gray text-left">#</th>
@@ -53,7 +53,7 @@ const TasksTable = () => {
                 <td
                   className={`${
                     task?.completed ? "line-through" : "font-medium"
-                  } border-r border-gray px-4 py-2 font-montserrat `}
+                  } border-r border-gray px-4 py-2 font-montserrat`}
                   onDoubleClick={() => {
                     handleCompleteTask(task?._id);
                   }}

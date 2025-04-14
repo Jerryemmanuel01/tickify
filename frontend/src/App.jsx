@@ -7,6 +7,8 @@ import Layout from "./layouts";
 import Dashboard from "./pages/dashboard";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
+import ProtectRoutes from "./pages/ProtectRoutes";
+import ProtectAuths from "./pages/ProtectAuths";
 
 function App() {
   return (
@@ -14,10 +16,14 @@ function App() {
       router={createBrowserRouter([
         {
           path: "/",
-          element: <Layout />,
+          element: <Navigate to="/home" />,
+        },
+        {
+          path: "/",
+          element: <ProtectRoutes element={<Layout />} />,
           children: [
             {
-              path: "/",
+              path: "/home",
               element: <Dashboard />,
             },
           ],
@@ -25,18 +31,18 @@ function App() {
 
         {
           path: "/auth",
-          element: <Layout />,
+          element: <ProtectAuths element={<Layout />} />,
           children: [
             {
               path: "login",
-              element: <Login />
+              element: <Login />,
             },
             {
               path: "sign-up",
-              element: <SignUp />
-            }
-          ]
-        }
+              element: <SignUp />,
+            },
+          ],
+        },
       ])}
     />
   );
