@@ -9,6 +9,9 @@ const SignUpForm = () => {
     setTogglePassword,
     toggleCPassword,
     togglePassword,
+    isLoading,
+    isSuccess,
+    message,
   } = useSignUpForm();
   return (
     <div className="bg-white w-full">
@@ -151,14 +154,14 @@ const SignUpForm = () => {
         <div className="flex items-center justify-center">
           <button
             type="submit"
-            disabled={!formik.dirty || !formik.isValid}
+            disabled={!formik.dirty || !formik.isValid || isLoading}
             className={`${
-              !formik.dirty || !formik.isValid
+              !formik.dirty || !formik.isValid || isLoading
                 ? "bg-[#D0D5DD]"
                 : "bg-primary hover:bg-primary/95 active:bg-primary duration-300"
             } w-full text-white rounded-lg h-12 px-6 mt-8 text-sm font-semibold outline-none`}
           >
-            {"" ? "Please wait..." : "Sign up"}
+            {isLoading ? "Please wait..." : "Sign up"}
           </button>
         </div>
       </form>

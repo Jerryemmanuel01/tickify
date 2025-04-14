@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 export const signUp = async (req, res) => {
   const { username, email, password } = req.body;
   try {
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
       return res
         .status(400)
@@ -22,8 +22,15 @@ export const signUp = async (req, res) => {
     await newUser.save();
     res.status(201).json({ success: true, message: "Signup Successful" });
   } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ message: "Server error" });
+
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: "Email or username already exists",
+      });
+    }
+    console.log(error);
+    res.status(500).json({ error: error.message || "Server error" });
   }
 };
 

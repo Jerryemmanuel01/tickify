@@ -21,7 +21,7 @@ const LoginForm = () => {
             name="username"
             id="username"
             placeholder="Johndoe"
-            className={`w-full h-10 text-sm font-medium outline-none tracking-wide text-dark`}
+            className={`w-full h-10 text-xs md:text-sm font-medium outline-none tracking-wide text-dark`}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.username}
@@ -48,7 +48,7 @@ const LoginForm = () => {
             name="password"
             id="password"
             placeholder="**********"
-            className={`w-full h-10 text-sm font-medium outline-none tracking-wide text-dark`}
+            className={`w-full h-10 text-xs md:text-sm font-medium outline-none tracking-wide text-dark`}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.password}
