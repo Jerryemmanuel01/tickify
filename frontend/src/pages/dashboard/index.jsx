@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { Trash, X } from "lucide-react";
-import Modal from "../../components/Modal";
 import { motion } from "framer-motion";
 import Taskform from "../../components/Taskform";
 import TasksTable from "../../components/TasksTable";

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  completeTask,
   deleteTask,
   editTask,
   getTasks,
@@ -13,6 +14,7 @@ import { taskSchema } from "../lib/schema";
 const useTasksTable = () => {
   const [showModal, setShowModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [allTasks, setAllTasks] = useState([]);
   const [taskId, setTaskId] = useState("");
 
   const dispatch = useDispatch();
@@ -25,6 +27,9 @@ const useTasksTable = () => {
     isError,
     isEditTaskSuccess,
     isEditTaskLoading,
+    isDeleteTaskLoading,
+    isDeleteTaskSuccess,
+    isCompleteTaskSuccess,
   } = useSelector((state) => state.tasks);
 
   useEffect(() => {
@@ -37,23 +42,65 @@ const useTasksTable = () => {
       dispatch(reset());
       return;
     }
-    if (isEditTaskSuccess) {
-      setShowModal(false);
+    if (isEditTaskSuccess && message === "Task Edited Successful") {
       formik.resetForm();
-      dispatch(getTasks());
       toast.success(message);
+      setShowModal(false);
+      setTaskId("");
+      dispatch(getTasks());
       dispatch(reset());
       return;
     }
-    if (isError) toast.error(message);
+    if (isDeleteTaskSuccess && message === "Task Deleted Successful") {
+      toast.success(message);
+      setDeleteModal(false);
+      setTaskId("");
+      dispatch(getTasks());
+      return;
+    }
+    if (
+      isCompleteTaskSuccess &&
+      (message === "Task Completed Successful" ||
+        message === "Task Reactivated Successful")
+    ) {
+      toast.success(message);
+      setTaskId("");
+      dispatch(getTasks());
+      dispatch(reset());
+      return;
+    }
+    if (isError) {
+      toast.error(message);
+    }
     dispatch(reset());
     return;
-  }, [isSuccess, isError, message]);
+  }, [
+    isSuccess,
+    isError,
+    message,
+    isDeleteTaskSuccess,
+    isEditTaskSuccess,
+    isCompleteTaskSuccess,
+  ]);
+
+  useEffect(() => {
+    const sortedTasks = [...tasks]?.sort((a, b) => {
+      return a.completed - b.completed;
+    });
+    setAllTasks(sortedTasks);
+  }, [tasks]);
 
   const clickedTask = tasks?.find((task) => task._id === taskId);
 
   const handleDeleteTask = () => {
-    dispatch(deleteTask({ _id: taskId }));
+    dispatch(deleteTask({ data: { _id: taskId } }));
+  };
+
+  const handleCompleteTask = (id) => {
+    const userData = {
+      _id: id,
+    };
+    dispatch(completeTask(userData));
   };
 
   const formik = useFormik({
@@ -82,6 +129,10 @@ const useTasksTable = () => {
     setTaskId,
     formik,
     isEditTaskLoading,
+    handleDeleteTask,
+    handleCompleteTask,
+    isDeleteTaskLoading,
+    allTasks,
   };
 };
 

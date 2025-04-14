@@ -11,7 +11,6 @@ const Taskform = () => {
           name="title"
           id="title"
           onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
           value={formik.values.title}
           className="w-full h-full rounded-s-lg outline-none px-4 text-sm font-medium placeholder:text-gray/90 placeholder:font-normal text-darker"
           placeholder="Write out your daily activities..."

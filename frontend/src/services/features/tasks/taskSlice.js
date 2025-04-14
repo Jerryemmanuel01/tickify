@@ -13,6 +13,10 @@ const initialState = {
   isAddTaskSuccess: false,
   isEditTaskLoading: false,
   isEditTaskSuccess: false,
+  isDeleteTaskLoading: false,
+  isDeleteTaskSuccess: false,
+  isCompleteTaskLoading: false,
+  isCompleteTaskSuccess: false,
   tasks: tasks ? JSON.parse(tasks) : null,
 };
 
@@ -63,6 +67,10 @@ const taskSlice = createSlice({
       state.isAddTaskLoading = false;
       state.isEditTaskSuccess = false;
       state.isEditTaskLoading = false;
+      state.isDeleteTaskSuccess = false;
+      state.isDeleteTaskLoading = false;
+      state.isCompleteTaskSuccess = false;
+      state.isCompleteTaskLoading = false;
       state.message = "";
     },
     resetTasks: (state) => {
@@ -123,41 +131,41 @@ const taskSlice = createSlice({
         state.isEditTaskLoading = false;
         state.message = action.payload;
         state.isEditTaskSuccess = false;
-        state.isEditTaskLoading = false;
+        state.isError = true;
       })
 
       // completeTask case
       .addCase(completeTask.pending, (state) => {
-        state.isLoading = true;
+        state.isCompleteTaskLoading = true;
       })
       .addCase(completeTask.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isCompleteTaskLoading = false;
         state.isError = false;
-        state.isSuccess = true;
+        state.isCompleteTaskSuccess = true;
         state.message = action.payload.message;
       })
       .addCase(completeTask.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isError = true;
         state.message = action.payload;
-        state.isSuccess = false;
-        state.isLoading = false;
+        state.isCompleteTaskSuccess = false;
+        state.isCompleteTaskLoading = false;
       })
 
       //   deleteTask case
       .addCase(deleteTask.pending, (state) => {
-        state.isLoading = true;
+        state.isDeleteTaskLoading = true;
       })
       .addCase(deleteTask.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isDeleteTaskLoading = false;
         state.isError = false;
-        state.isSuccess = true;
+        state.isDeleteTaskSuccess = true;
         state.message = action.payload.message;
       })
       .addCase(deleteTask.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isDeleteTaskLoading = false;
         state.message = action.payload;
-        state.isSuccess = false;
-        state.isLoading = false;
+        state.isDeleteTaskSuccess = false;
+        state.isError = true;
       });
   },
 });

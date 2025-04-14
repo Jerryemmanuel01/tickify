@@ -5,9 +5,11 @@ export const allTasks = async (req, res) => {
   try {
     const tasks = await Task.find({ user: userId });
 
-    res
-      .status(200)
-      .json({ success: true, message: "Tasks fetch successful", data: tasks });
+    res.status(200).json({
+      success: true,
+      message: "Tasks fetch successful",
+      data: tasks.reverse(),
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -46,6 +48,11 @@ export const addTask = async (req, res) => {
 export const editTask = async (req, res) => {
   try {
     const { _id, title } = req.body;
+    if (!_id) {
+      return res
+        .status(401)
+        .json({ success: false, message: "User Id not found!" });
+    }
     const task = await Task.findOne({ _id });
 
     if (!task) {
@@ -58,7 +65,7 @@ export const editTask = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Task Edited",
+      message: "Task Edited Successful",
     });
   } catch (error) {
     console.log(error);
@@ -69,6 +76,11 @@ export const editTask = async (req, res) => {
 export const completeTask = async (req, res) => {
   try {
     const { _id } = req.body;
+    if (!_id) {
+      return res
+        .status(401)
+        .json({ success: false, message: "User Id not found!" });
+    }
 
     const task = await Task.findOne({ _id });
 
@@ -78,12 +90,12 @@ export const completeTask = async (req, res) => {
         .json({ success: false, message: "Task not found!" });
     }
 
-    task.completed = true;
+    task.completed = !task.completed;
     await task.save();
 
     res.status(200).json({
       success: true,
-      message: "Task Completed",
+      message: task.completed ? "Task Completed Successful":"Task Reactivated Successful",
     });
   } catch (error) {
     console.log(error);
@@ -94,6 +106,12 @@ export const completeTask = async (req, res) => {
 export const deleteTask = async (req, res) => {
   try {
     const { _id } = req.body;
+
+    if (!_id) {
+      return res
+        .status(401)
+        .json({ success: false, message: "User Id not found!" });
+    }
 
     const task = await Task.findOne({ _id });
 
@@ -107,7 +125,7 @@ export const deleteTask = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Task Deleted",
+      message: "Task Deleted Successful",
     });
   } catch (error) {
     console.log(error);

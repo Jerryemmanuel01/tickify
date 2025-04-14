@@ -20,7 +20,6 @@ const useAddTasks = () => {
       dispatch(reset())
       return
     }
-    if (isError) toast.error(message);
     dispatch(reset());
     return;
   }, [isAddTaskSuccess, isError, message]);

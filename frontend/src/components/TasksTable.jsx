@@ -14,10 +14,15 @@ const TasksTable = () => {
     setTaskId,
     formik,
     isEditTaskLoading,
+    handleCompleteTask,
+    handleDeleteTask,
+    isLoading,
+    isDeleteTaskLoading,
+    allTasks,
   } = useTasksTable();
 
   return (
-    <section className="">
+    <section className="w-full">
       <div className="mt-6 w-full overflow-x-auto">
         <table className="w-full bg-[#f8f8f8] rounded-md text-sm">
           <thead>
@@ -35,12 +40,24 @@ const TasksTable = () => {
             </tr>
           </thead>
           <tbody>
-            {tasks?.map((task, i) => (
-              <tr className="even:bg-primary/10 font-exo" key={i}>
-                <td className="border-r border-gray px-4 py-2 whitespace-nowrap text-darker">
+            {allTasks?.map((task, i) => (
+              <tr
+                className={`even:bg-primary/10 font-exo cursor-pointer w-full ${
+                  task?.completed ? " text-gray" : "text-darker"
+                } `}
+                key={i}
+              >
+                <td className="border-r border-gray px-4 py-2 whitespace-nowrap">
                   {i + 1}
                 </td>
-                <td className="border-r border-gray px-4 py-2 font-montserrat text-darker">
+                <td
+                  className={`${
+                    task?.completed ? "line-through" : "font-medium"
+                  } border-r border-gray px-4 py-2 font-montserrat `}
+                  onDoubleClick={() => {
+                    handleCompleteTask(task?._id);
+                  }}
+                >
                   {task?.title}
                 </td>
                 <td className=" px-4 py-2 whitespace-nowrap flex justify-between gap-6 md:gap-4">
@@ -54,7 +71,9 @@ const TasksTable = () => {
                   </button>
                   <Trash
                     className="w-5 text-red-700 hover:text-red-500 active:text-red-900 duration-300"
-                    onClick={() => setDeleteModal(true)}
+                    onClick={() => {
+                      setDeleteModal(true), setTaskId(task?._id);
+                    }}
                   />
                 </td>
               </tr>
@@ -62,7 +81,7 @@ const TasksTable = () => {
           </tbody>
         </table>
       </div>
-
+   
       <Modal
         isOpen={showModal}
         onClose={() => {
@@ -133,8 +152,17 @@ const TasksTable = () => {
             >
               Cancel
             </button>
-            <button className="bg-red-600 hover:bg-red-500 active:bg-red-700 duration-300 py-2 px-4 rounded-md text-white">
-              Delete
+            <button
+              onClick={handleDeleteTask}
+              className={`${
+                isDeleteTaskLoading ? "bg-red-400" : "bg-red-600"
+              }  hover:bg-red-500 active:bg-red-700 duration-300 py-2 px-4 rounded-md text-white`}
+            >
+              {isDeleteTaskLoading ? (
+                <PiSpinner className="animate-spin" />
+              ) : (
+                "Delete"
+              )}
             </button>
           </div>
         </div>

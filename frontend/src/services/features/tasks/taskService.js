@@ -22,12 +22,15 @@ const editTask = async (taskData) => {
 };
 
 const completeTask = async (taskData) => {
+  console.log(taskData);
   const response = await axiosClient.patch(`/task/complete-task`, taskData);
 
   return response.data;
 };
 
 const deleteTask = async (taskData) => {
+  console.log(taskData);
+  
   const response = await axiosClient.delete(`/task/delete-task`, taskData);
 
   return response.data;
