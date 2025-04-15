@@ -25,6 +25,14 @@ const userSchema = new Schema(
       type: String,
       select: false,
     },
+    forgotPasswordCode: {
+      type: String,
+      select: false,
+    },
+    forgotPasswordCodeValidation: {
+      type: Number,
+      select: false,
+    },
   },
   { timestamps: true }
 );

@@ -22,3 +22,7 @@ export const loginSchema = z.object({
     .regex(/\d/, "Password must contain a number")
     .regex(/[\W_]/, "Password must contain a special character"),
 });
+
+export const forgetPasswordSchema = z.object({
+  email: z.string().email("Invalid email format"),
+});

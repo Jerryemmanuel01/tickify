@@ -10,7 +10,7 @@ const Dashboard = () => {
       viewport={{ once: true }}
       transition={{ duration: 0.3, ease: "easeOut" }}
     >
-      <section className="px-6">
+      <section className="px-6 pb-6">
         <div className="max-w-[800px] mx-auto h-full">
           <div className="w-full flex items-center justify-center mt-10 flex-col">
             <Taskform />

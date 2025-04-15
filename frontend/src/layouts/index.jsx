@@ -1,12 +1,9 @@
 import { Outlet, ScrollRestoration } from "react-router-dom";
-import Navbar from "../components/Navbar"
+import Navbar from "../components/Navbar";
 
 const index = () => {
   return (
-    <section
-      
-      className="w-full min-h-[100vh] bg-gradient-to-br from-primary to-black pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)] "
-    >
+    <section className="w-full min-h-screen bg-gradient-to-br from-primary to-black">
       <ScrollRestoration />
       <Navbar />
       <Outlet />

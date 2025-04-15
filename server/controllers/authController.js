@@ -1,6 +1,8 @@
 import User from "../models/userModel.js";
-import { doHash, doHashValidation } from "../utils/hashing.js";
+import { doHash, doHashValidation, hmacProcess } from "../utils/hashing.js";
 import jwt from "jsonwebtoken";
+import { transport } from "../utils/sendMail.js";
+import emailTemplate from "../utils/emailTemplate.js";
 
 export const signUp = async (req, res) => {
   let { username, email, password } = req.body;
@@ -67,6 +69,59 @@ export const login = async (req, res) => {
     );
 
     res.status(200).json({ success: true, message: "Login Successful", token });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+export const forgetPassword = async (req, res) => {
+  try {
+    let { email } = req.body;
+    email = email?.toLowerCase();
+
+    if (!email) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Please input your email address" });
+    }
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      return res
+        .status(401)
+        .json({ success: false, message: "User does not exist!" });
+    }
+
+    const codeValue = Math.floor(Math.random() * 1000000).toString();
+    
+    const hashedCodeValue = hmacProcess(
+      codeValue,
+      process.env.HMAC_VERIFICATION_CODE_SECRET
+    );
+
+    const resetLink = `https://tickify-seven.vercel.app/auth/reset-password/${hashedCodeValue}`;
+    const emailUsername =
+      existingUser.username.charAt(0).toUpperCase() + existingUser.username.slice(1).toLowerCase();
+    let info = await transport.sendMail({
+      from: process.env.NODE_CODE_SENDING_EMAIL_ADDRESS,
+      to: existingUser.email,
+      subject: "Tickify Password Reset",
+      html: emailTemplate(emailUsername, resetLink),
+    });
+
+    if (info.accepted[0] === existingUser.email) {
+      existingUser.forgotPasswordCode = hashedCodeValue;
+      existingUser.forgotPasswordCodeValidation = Date.now();
+      await existingUser.save();
+      return res.status(200).json({
+        success: true,
+        message: "Reset link sent!",
+      });
+    }
+    res.status(400).json({
+      success: false,
+      message: "Reset password requset failed! Please try again",
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Server error" });

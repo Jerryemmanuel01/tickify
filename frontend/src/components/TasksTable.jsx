@@ -24,16 +24,15 @@ const TasksTable = () => {
   return (
     <section className="w-full">
       <div className="mt-6 w-full overflow-x-auto">
-        <table className="w-full bg-[#f8f8f8] rounded-md md:text-sm text-xs">
+        <table className="w-full bg-[#f8f8f8] rounded-md text-sm ">
           <thead>
             <tr className="bg-secondary/30 font-lato text-dark">
               <th className="px-4 py-2 border-r border-gray text-left">#</th>
-              <th className="px-4 py-2 border-r border-gray text-left">
+              <th className="px-4 py-2 border-r border-gray text-left w-full">
                 Tasks
               </th>
               <th
-                className="px-4 py-2 border-r border-gray text-center"
-                colSpan={2}
+                className="px-4 py-2 border-r border-gray text-center "
               >
                 Actions
               </th>
@@ -60,7 +59,7 @@ const TasksTable = () => {
                 >
                   {task?.title}
                 </td>
-                <td className=" px-4 py-2 whitespace-nowrap flex justify-between gap-6 md:gap-4">
+                <td className=" px-4 py-2 whitespace-nowrap flex justify-between gap-6 md:gap-14">
                   <button
                     className="outline-none font-medium text-yellow-500 hover:text-yellow-300 active:text-yellow-700 duration-300"
                     onClick={() => {
@@ -80,8 +79,13 @@ const TasksTable = () => {
             ))}
           </tbody>
         </table>
+        {allTasks?.length === 0 && (
+          <p className="text-white text-center mt-4 font-semibold text-xs md:text-sm font-montserrat">
+            No task available
+          </p>
+        )}
       </div>
-   
+
       <Modal
         isOpen={showModal}
         onClose={() => {
