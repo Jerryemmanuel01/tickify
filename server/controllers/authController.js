@@ -99,7 +99,7 @@ export const forgetPassword = async (req, res) => {
       process.env.HMAC_VERIFICATION_CODE_SECRET
     );
 
-    const resetLink = `https://tickify-seven.vercel.app/auth/reset-password/${hashedCodeValue}`;
+    const resetLink = `${process.env.FRONTEND_BASE_URL}/auth/reset-password/${hashedCodeValue}?email=${existingUser.email}`;
     const emailUsername =
       existingUser.username.charAt(0).toUpperCase() +
       existingUser.username.slice(1).toLowerCase();
@@ -166,12 +166,10 @@ export const resetPassword = async (req, res) => {
       !existingUser.forgotPasswordCode ||
       !existingUser.forgotPasswordCodeValidation
     ) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Something went wrong! Please try again.",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Something went wrong! Please try again.",
+      });
     }
 
     if (

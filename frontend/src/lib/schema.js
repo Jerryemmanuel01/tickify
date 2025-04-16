@@ -41,3 +41,18 @@ export const forgetPasswordSchema = Yup.object().shape({
     .email("Invalid email format")
     .required("Email is required"),
 });
+
+export const ResetPasswordSchema = Yup.object().shape({
+  password: Yup.string()
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters long")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .matches(/[0-9]/, "Password must contain at least one number")
+    .matches(
+      /[\W_]/,
+      "Password must contain at least one special character (e.g., $, &, @, etc.)"
+    ),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Passwords must match")
+    .required("Please confirm your password"),
+});

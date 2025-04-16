@@ -1,10 +1,10 @@
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { forgetPasswordSchema, loginSchema } from "../lib/schema.js";
+import { forgetPasswordSchema } from "../lib/schema.js";
 import { useDispatch, useSelector } from "react-redux";
-import { forgetPassword, login, reset } from "../services/features/auth/authSlice.js";
+import { forgetPassword, reset } from "../services/features/auth/authSlice.js";
 
 const useForgetPasswordForm = () => {
   const navigate = useNavigate();

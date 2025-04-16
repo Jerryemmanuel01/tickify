@@ -1,40 +1,18 @@
-import useLoginForm from "../hooks/useLoginForm";
-import { Eye, EyeOff, LockKeyhole, User2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Eye, EyeOff, LockKeyhole } from "lucide-react";
+import useResetPassword from "../hooks/useResetPassword";
 
-const LoginForm = () => {
-  const { formik, setTogglePassword, togglePassword, isLoading } =
-    useLoginForm();
+const ResetPasswordForm = () => {
+  const {
+    formik,
+    isLoading,
+    setToggleConfirmPassword,
+    toggleConfirmPassword,
+    setTogglePassword,
+    togglePassword,
+  } = useResetPassword();
   return (
     <form className="mt-6 md:mt-7" onSubmit={formik.handleSubmit}>
       <div className="">
-        <label
-          htmlFor="username"
-          className="text-sm font-medium tracking-wide text-darker"
-        >
-          Username
-        </label>
-        <div className="border-[#D0D5DD] border w-full px-2 flex items-center gap-2 rounded-md">
-          <User2 color="#98A2B3" className="w-[18px]" />
-          <input
-            type="text"
-            name="username"
-            id="username"
-            placeholder="Johndoe"
-            className={`w-full h-10 text-xs md:text-sm font-medium outline-none tracking-wide text-dark`}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.username}
-          />
-        </div>
-        {formik.touched.username && formik.errors.username ? (
-          <div className="text-red-500 text-[10px] md:text-xs font-semibold">
-            {formik.errors.username}
-          </div>
-        ) : null}
-      </div>
-
-      <div className="mt-6">
         <label
           htmlFor="password"
           className="text-sm font-medium tracking-wide text-darker"
@@ -72,13 +50,42 @@ const LoginForm = () => {
         ) : null}
       </div>
 
-      <div className="mt-2 w-full text-right text-primary">
-        <Link
-          to="/auth/forget-password"
-          className="text-xs md:text-sm tracking-wide"
+      <div className="mt-6">
+        <label
+          htmlFor="confirmPassword"
+          className="text-sm font-medium tracking-wide text-darker"
         >
-          Forgot Password?
-        </Link>
+          Confirm Password
+        </label>
+        <div className="border-[#D0D5DD] border w-full px-2 flex items-center gap-2 rounded-md">
+          <LockKeyhole color="#98A2B3" />
+          <input
+            type={toggleConfirmPassword ? "text" : "password"}
+            name="confirmPassword"
+            id="confirmPassword"
+            placeholder="**********"
+            className={`w-full h-10 text-xs md:text-sm font-medium outline-none tracking-wide text-dark`}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.confirmPassword}
+          />
+          <button
+            className="outline-none"
+            onClick={() => setToggleConfirmPassword(!toggleConfirmPassword)}
+            type="button"
+          >
+            {toggleConfirmPassword ? (
+              <Eye color="#98A2B3" className="w-[18px]" />
+            ) : (
+              <EyeOff color="#98A2B3" className="w-[18px]" />
+            )}
+          </button>
+        </div>
+        {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+          <div className="text-red-500 text-[10px] lg:text-xs font-semibold">
+            {formik.errors.confirmPassword}
+          </div>
+        ) : null}
       </div>
 
       <div className="flex items-center justify-center">
@@ -91,11 +98,11 @@ const LoginForm = () => {
               : "bg-primary hover:bg-primary/95 active:bg-primary duration-300"
           } w-full text-white rounded-lg h-12 px-6 mt-8 text-sm font-semibold outline-none`}
         >
-          {isLoading ? "Please wait..." : "Login"}
+          {isLoading ? "Please wait..." : "Reset"}
         </button>
       </div>
     </form>
   );
 };
 
-export default LoginForm;
+export default ResetPasswordForm;

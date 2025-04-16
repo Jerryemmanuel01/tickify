@@ -27,8 +27,8 @@ const forgetPassword = async (userData) => {
 };
 
 const resetPassword = async (userData) => {
-  const { token, password, confirmPassword } = userData;
-  const userInfo = { password, confirmPassword };
+  const { token, password, confirmPassword, email } = userData;
+  const userInfo = { password, confirmPassword, email };
   const response = await axiosClient.post(
     `/auth/reset-password/${token}`,
     userInfo
