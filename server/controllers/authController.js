@@ -116,7 +116,7 @@ export const forgetPassword = async (req, res) => {
       await existingUser.save();
       return res.status(200).json({
         success: true,
-        message: "Reset link sent!",
+        message: "Reset link sent! Please check your email",
       });
     }
     res.status(400).json({
@@ -133,7 +133,7 @@ export const resetPassword = async (req, res) => {
   try {
     const { token } = req.params;
     const { password, email } = req.body;
-    
+
     if (!token) {
       return res.status(401).json({
         success: false,
@@ -168,7 +168,10 @@ export const resetPassword = async (req, res) => {
     ) {
       return res
         .status(400)
-        .json({ success: false, message: "Something went wrong! Please try again." });
+        .json({
+          success: false,
+          message: "Something went wrong! Please try again.",
+        });
     }
 
     if (
@@ -190,10 +193,8 @@ export const resetPassword = async (req, res) => {
         .status(200)
         .json({ success: true, message: "Password reset successful" });
     }
-
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
-

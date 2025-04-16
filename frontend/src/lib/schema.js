@@ -35,3 +35,9 @@ export const signUpSchema = Yup.object().shape({
 export const taskSchema = Yup.object().shape({
   title: Yup.string().required("Task is required"),
 });
+
+export const forgetPasswordSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
+});

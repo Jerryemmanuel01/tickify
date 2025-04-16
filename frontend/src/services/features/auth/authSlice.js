@@ -20,16 +20,30 @@ export const signUp = createAsyncThunkWithHandler(
   }
 );
 
-export const logout = createAsyncThunkWithHandler("auth/logout", async () => {
-  return authService.logout();
-});
-
 export const login = createAsyncThunkWithHandler(
   "auth/login",
   async (data, _) => {
     return await authService.login(data);
   }
 );
+
+export const forgetPassword = createAsyncThunkWithHandler(
+  "auth/forgetPassword",
+  async (data, _) => {
+    return await authService.forgetPassword(data);
+  }
+);
+
+export const resetPassword = createAsyncThunkWithHandler(
+  "auth/resetPassword",
+  async (data, _) => {
+    return await authService.resetPassword(data);
+  }
+);
+
+export const logout = createAsyncThunkWithHandler("auth/logout", async () => {
+  return authService.logout();
+});
 
 const authSlice = createSlice({
   name: "auth",
@@ -94,41 +108,41 @@ const authSlice = createSlice({
       })
       .addCase(logout.rejected, (state, action) => {
         state.isLoading = false;
+      })
+
+      // forgetPassword case
+      .addCase(forgetPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(forgetPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.message = action.payload.message;
+      })
+      .addCase(forgetPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.isSuccess = false;
+      })
+
+      //resetPassword case
+      .addCase(resetPassword.pending, (state, _) => {
+        state.isLoading = true;
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.message = action.payload.message;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload.message;
+        state.isSuccess = false;
       });
-
-    //forgetPassword case
-    //   .addCase(forgetPassword.pending, (state) => {
-    //     state.isLoading = true;
-    //   })
-    //   .addCase(forgetPassword.fulfilled, (state, action) => {
-    //     state.isLoading = false;
-    //     state.isError = false;
-    //     state.isSuccess = true;
-    //     state.message = action.payload.result.message;
-    //   })
-    //   .addCase(forgetPassword.rejected, (state, action) => {
-    //     state.isLoading = false;
-    //     state.isError = true;
-    //     state.message = action.payload.message;
-    //     state.isSuccess = false;
-    //   })
-
-    //   //resetPassword case
-    //   .addCase(resetPassword.pending, (state, _) => {
-    //     state.isLoading = true;
-    //   })
-    //   .addCase(resetPassword.fulfilled, (state, action) => {
-    //     state.isLoading = false;
-    //     state.isError = false;
-    //     state.isSuccess = true;
-    //     state.message = action.payload.result.message;
-    //   })
-    //   .addCase(resetPassword.rejected, (state, action) => {
-    //     state.isLoading = false;
-    //     state.isError = true;
-    //     state.message = action.payload.message;
-    //     state.isSuccess = false;
-    //   });
   },
 });
 

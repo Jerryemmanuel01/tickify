@@ -5,10 +5,11 @@ import {
 } from "react-router-dom";
 import Layout from "./layouts";
 import Dashboard from "./pages/dashboard";
-import Login from "./pages/auth/Login";
-import SignUp from "./pages/auth/SignUp";
+// import Login from "./pages/auth/Login";
+// import SignUp from "./pages/auth/SignUp";
 import ProtectRoutes from "./pages/ProtectRoutes";
 import ProtectAuths from "./pages/ProtectAuths";
+import { Home, ForgetPassword, Login, ResetPassword, SignUp } from "./routes";
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
           children: [
             {
               path: "/home",
-              element: <Dashboard />,
+              element: <Home />,
             },
           ],
         },
@@ -40,6 +41,14 @@ function App() {
             {
               path: "sign-up",
               element: <SignUp />,
+            },
+            {
+              path: "reset-password",
+              element: <ResetPassword />,
+            },
+            {
+              path: "forget-password",
+              element: <ForgetPassword />,
             },
           ],
         },
