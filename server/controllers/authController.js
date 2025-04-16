@@ -93,7 +93,7 @@ export const forgetPassword = async (req, res) => {
     }
 
     const codeValue = Math.floor(Math.random() * 1000000).toString();
-    
+
     const hashedCodeValue = hmacProcess(
       codeValue,
       process.env.HMAC_VERIFICATION_CODE_SECRET
@@ -101,7 +101,8 @@ export const forgetPassword = async (req, res) => {
 
     const resetLink = `https://tickify-seven.vercel.app/auth/reset-password/${hashedCodeValue}`;
     const emailUsername =
-      existingUser.username.charAt(0).toUpperCase() + existingUser.username.slice(1).toLowerCase();
+      existingUser.username.charAt(0).toUpperCase() +
+      existingUser.username.slice(1).toLowerCase();
     let info = await transport.sendMail({
       from: process.env.NODE_CODE_SENDING_EMAIL_ADDRESS,
       to: existingUser.email,
@@ -127,3 +128,72 @@ export const forgetPassword = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password, email } = req.body;
+    
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "URL params token required",
+      });
+    }
+    if (!email) {
+      return res.status(401).json({
+        success: false,
+        message: "Email is required",
+      });
+    }
+    if (!password) {
+      return res.status(401).json({
+        success: false,
+        message: "Password and confirmed password required",
+      });
+    }
+    const existingUser = await User.findOne({ email }).select(
+      "+forgotPasswordCode +forgotPasswordCodeValidation"
+    );
+
+    if (!existingUser) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User does not exist!" });
+    }
+
+    if (
+      !existingUser.forgotPasswordCode ||
+      !existingUser.forgotPasswordCodeValidation
+    ) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Something went wrong! Please try again." });
+    }
+
+    if (
+      Date.now() - existingUser.forgotPasswordCodeValidation >
+      10 * 60 * 1000
+    ) {
+      res
+        .status(400)
+        .json({ success: false, message: "Verification Code expired" });
+    }
+
+    if (token === existingUser.forgotPasswordCode) {
+      const hashedPassword = await doHash(password, 12);
+      existingUser.password = hashedPassword;
+      existingUser.forgotPasswordCode = undefined;
+      existingUser.forgotPasswordCodeValidation = undefined;
+      await existingUser.save();
+      return res
+        .status(200)
+        .json({ success: true, message: "Password reset successful" });
+    }
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
