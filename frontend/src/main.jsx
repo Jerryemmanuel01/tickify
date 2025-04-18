@@ -7,9 +7,10 @@ import App from "./App.jsx";
 import { Provider } from "react-redux";
 import { store } from "./store/index.js";
 import { Toaster } from "react-hot-toast";
+import Loader from "./components/Loader.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <Suspense fallback="Loading...">
+  <Suspense fallback={<Loader />}>
     <Toaster />
 
     <Provider store={store}>
