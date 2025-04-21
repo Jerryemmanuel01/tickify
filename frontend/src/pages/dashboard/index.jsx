@@ -18,6 +18,9 @@ const Dashboard = () => {
             <TasksTable />
           </div>
         </div>
+        <p className="text-white mt-6 text-[10px] font-lato font-bold">
+          NB: Double click on task to mark as done
+        </p>
       </section>
     </motion.section>
   );
